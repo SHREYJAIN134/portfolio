@@ -6,10 +6,17 @@ import { Projects } from './components/Projects';
 import { HobbiesSection } from './components/HobbiesSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { Cursor } from './components/Cursor';
+import { Preloader } from './components/Preloader';
+import { useSiteAnimations } from './animations/useSiteAnimations';
 
 export function App() {
+  useSiteAnimations();
+
   return (
     <div className="min-h-screen bg-background text-ink selection:bg-accent-cyan/30 selection:text-accent-cyan">
+      <Preloader />
+      <Cursor />
       <Navbar />
       <main>
         <Hero />
