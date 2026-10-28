@@ -24,14 +24,21 @@ export const useSiteAnimations = () => {
     motion.add('(prefers-reduced-motion: no-preference)', () => {
       cleanups.push(navIntro(), heroIntro());
       cleanups.push(heroPhotoReveal());
-      heroScroll();
-      section.sectionTransitions();
       cleanups.push(section.about(), section.academics());
       section.projects();
       section.hobbies();
       section.contact();
       section.footer();
       return untagAll;
+    });
+
+    // Full-screen scrubbed section transitions only on wide screens. When the layout stacks on a
+    // phone each section is several screens tall, and scrubbing across it keeps content hidden or
+    // dimmed for most of the scroll. Phones get just the per-element reveals above.
+    const wide = gsap.matchMedia();
+    wide.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px)', () => {
+      heroScroll();
+      section.sectionTransitions();
     });
 
     const pointer = gsap.matchMedia();
@@ -45,6 +52,7 @@ export const useSiteAnimations = () => {
     return () => {
       cleanups.forEach((fn) => fn());
       pointer.revert();
+      wide.revert();
       motion.revert();
       state.revert();
     };
